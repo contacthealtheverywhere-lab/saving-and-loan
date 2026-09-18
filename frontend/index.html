@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a73e8">
+  <meta name="description" content="Sahridayata Savings - Mobile-first savings and loan management">
+  <title>Sahridayata Savings</title>
+  
+  <!-- Preload critical resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/frontend/css/main.css">
+  
+  <!-- PWA Manifest (if supported) -->
+  <link rel="manifest" href="/frontend/manifest.json">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/frontend/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/frontend/favicon-16.png">
+  <link rel="apple-touch-icon" href="/frontend/apple-touch-icon.png">
+</head>
+<body class="mobile-first">
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p class="loading-text" data-t="loading">Loading...</p>
+  </div>
+  
+  <!-- App Shell -->
+  <div id="app-shell" class="app-shell" style="display: none;">
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <h1 class="app-title">Sahridayata Savings</h1>
+        <div class="header-actions">
+          <button id="language-toggle" class="btn-icon" aria-label="Toggle Language">
+            <span id="current-language">EN</span>
+          </button>
+          <button id="profile-btn" class="btn-icon" aria-label="Profile">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main Content Area -->
+    <main id="main-content" class="main-content">
+      
+      <!-- Home/Dashboard View -->
+      <section id="view-home" class="view active">
+        <div class="dashboard-container">
+          
+          <!-- Balance Card -->
+          <div class="card balance-card">
+            <h2 class="card-title" data-t="savingsBalance">Savings Balance</h2>
+            <div class="balance-amount" id="savings-balance">
+              <span class="currency">AED</span>
+              <span class="amount" id="balance-value">0.00</span>
+            </div>
+            <div class="balance-updated">
+              <span data-t="updated">Updated:</span>
+              <span id="balance-timestamp">--</span>
+            </div>
+          </div>
+          
+          <!-- Quick Actions -->
+          <div class="quick-actions">
+            <button class="action-btn" data-action="deposit">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+              </svg>
+              <span data-t="deposit">Deposit</span>
+            </button>
+            <button class="action-btn" data-action="withdraw">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 13H5v-2h14v2z"/>
+              </svg>
+              <span data-t="withdraw">Withdraw</span>
+            </button>
+            <button class="action-btn" data-action="ledger">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+              </svg>
+              <span data-t="ledger">Ledger</span>
+            </button>
+            <button class="action-btn" data-action="loan">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+              </svg>
+              <span data-t="loan">Loan</span>
+            </button>
+            <button class="action-btn" data-action="statement">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+              </svg>
+              <span data-t="statement">Statement</span>
+            </button>
+          </div>
+          
+          <!-- Summary Cards -->
+          <div class="summary-cards">
+            <div class="card summary-card">
+              <h3 data-t="currentMonthDeposits">This Month's Deposits</h3>
+              <div class="summary-amount positive" id="month-deposits">AED 0.00</div>
+            </div>
+            <div class="card summary-card">
+              <h3 data-t="currentMonthWithdrawals">This Month's Withdrawals</h3>
+              <div class="summary-amount negative" id="month-withdrawals">AED 0.00</div>
+            </div>
+          </div>
+          
+          <!-- Loan Summary (if applicable) -->
+          <div class="card loan-summary" id="loan-summary-card" style="display: none;">
+            <h2 data-t="loanOutstanding">Loan Outstanding</h2>
+            <div class="loan-amount" id="loan-outstanding">AED 0.00</div>
+            <div class="loan-details">
+              <div class="loan-detail">
+                <span data-t="nextPayment">Next Payment</span>
+                <strong id="next-payment">AED 0.00</strong>
+              </div>
+              <div class="loan-detail">
+                <span data-t="dueDate">Due Date</span>
+                <strong id="payment-due-date">--</strong>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recent Transactions -->
+          <div class="card recent-transactions">
+            <div class="card-header">
+              <h2 data-t="recentTransactions">Recent Transactions</h2>
+              <button class="btn-link" data-action="view-all-ledger" data-t="viewDetails">View Details</button>
+            </div>
+            <div id="recent-transactions-list" class="transactions-list">
+              <div class="empty-state" data-t="noTransactions">No transactions found</div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+      
+      <!-- Deposit View -->
+      <section id="view-deposit" class="view">
+        <div class="form-container">
+          <div class="card">
+            <h2 data-t="depositAmount">Deposit Amount</h2>
+            
+            <form id="deposit-form" class="financial-form">
+              <div class="form-group">
+                <label for="deposit-amount" data-t="enterDepositAmount">Enter amount to deposit</label>
+                <div class="input-with-prefix">
+                  <span class="prefix">AED</span>
+                  <input 
+                    type="text" 
+                    id="deposit-amount" 
+                    name="amount" 
+                    inputmode="decimal" 
+                    pattern="[0-9]*\.?[0-9]{0,2}"
+                    placeholder="0.00"
+                    autocomplete="off"
+                    required
+                  >
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="deposit-reference" data-t="reference">Reference (Optional)</label>
+                <input 
+                  type="text" 
+                  id="deposit-reference" 
+                  name="reference"
+                  maxlength="100"
+                  placeholder=""
+                >
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" class="btn-secondary" data-action="back" data-t="cancel">Cancel</button>
+                <button type="submit" class="btn-primary" data-t="confirm">Confirm</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Withdrawal View -->
+      <section id="view-withdraw" class="view">
+        <div class="form-container">
+          <div class="card">
+            <h2 data-t="withdrawAmount">Withdrawal Amount</h2>
+            
+            <div class="balance-info">
+              <span data-t="availableBalance">Available Balance</span>
+              <strong id="withdraw-available-balance">AED 0.00</strong>
+            </div>
+            
+            <form id="withdraw-form" class="financial-form">
+              <div class="form-group">
+                <label for="withdraw-amount" data-t="withdrawAmount">Amount to withdraw</label>
+                <div class="input-with-prefix">
+                  <span class="prefix">AED</span>
+                  <input 
+                    type="text" 
+                    id="withdraw-amount" 
+                    name="amount" 
+                    inputmode="decimal" 
+                    pattern="[0-9]*\.?[0-9]{0,2}"
+                    placeholder="0.00"
+                    autocomplete="off"
+                    required
+                  >
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="withdraw-reference" data-t="reference">Reference (Optional)</label>
+                <input 
+                  type="text" 
+                  id="withdraw-reference" 
+                  name="reference"
+                  maxlength="100"
+                  placeholder=""
+                >
+              </div>
+              
+              <div id="withdraw-preview" class="transaction-preview" style="display: none;">
+                <div class="preview-row">
+                  <span data-t="withdrawAmount">Withdrawal Amount</span>
+                  <strong id="preview-amount">AED 0.00</strong>
+                </div>
+                <div class="preview-row">
+                  <span data-t="availableBalance">Available Balance</span>
+                  <span id="preview-balance">AED 0.00</span>
+                </div>
+                <div class="preview-row">
+                  <span data-t="balance">New Balance</span>
+                  <strong id="preview-new-balance">AED 0.00</strong>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" class="btn-secondary" data-action="back" data-t="cancel">Cancel</button>
+                <button type="submit" class="btn-primary" data-t="confirm">Confirm</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Ledger View -->
+      <section id="view-ledger" class="view">
+        <div class="ledger-container">
+          <div class="card">
+            <div class="card-header">
+              <h2 data-t="transactionHistory">Transaction History</h2>
+              <button class="btn-icon" id="refresh-ledger" aria-label="Refresh">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+              </button>
+            </div>
+            
+            <div id="ledger-list" class="transactions-list">
+              <div class="loading-state" data-t="loading">Loading...</div>
+            </div>
+            
+            <button id="load-more-ledger" class="btn-secondary full-width" style="display: none;" data-t="viewDetails">
+              Load More
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Loan View -->
+      <section id="view-loan" class="view">
+        <div class="loan-container">
+          <div class="card">
+            <h2 data-t="loanOutstanding">Loan Outstanding</h2>
+            <div class="loan-main-amount" id="loan-main-amount">AED 0.00</div>
+            
+            <div class="loan-breakdown">
+              <div class="loan-item">
+                <span data-t="loanPrincipal">Principal</span>
+                <strong id="loan-principal">AED 0.00</strong>
+              </div>
+              <div class="loan-item">
+                <span data-t="loanInterest">Interest</span>
+                <strong id="loan-interest">AED 0.00</strong>
+              </div>
+              <div class="loan-item">
+                <span data-t="paid">Paid</span>
+                <strong id="loan-paid">AED 0.00</strong>
+              </div>
+            </div>
+            
+            <div class="loan-next-payment">
+              <h3 data-t="nextPayment">Next Payment</h3>
+              <div class="payment-amount" id="loan-next-amount">AED 0.00</div>
+              <div class="payment-due" id="loan-next-due">--</div>
+            </div>
+            
+            <div class="form-actions">
+              <button class="btn-primary" data-action="repay-loan" data-t="repayment">Repayment</button>
+              <button class="btn-secondary" data-action="loan-history" data-t="paymentHistory">Payment History</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Statement View -->
+      <section id="view-statement" class="view">
+        <div class="statement-container">
+          <div class="card">
+            <h2 data-t="monthlyStatement">Monthly Statement</h2>
+            
+            <div class="form-group">
+              <label for="statement-month" data-t="selectMonth">Select Month</label>
+              <input type="month" id="statement-month" name="month">
+            </div>
+            
+            <div class="form-actions">
+              <button class="btn-primary" data-action="generate-statement" data-t="view">View Statement</button>
+            </div>
+            
+            <div id="statement-result" class="statement-result" style="display: none;">
+              <div class="statement-summary">
+                <div class="statement-row">
+                  <span data-t="openingBalance">Opening Balance</span>
+                  <strong id="stmt-opening">AED 0.00</strong>
+                </div>
+                <div class="statement-row">
+                  <span data-t="totalDeposits">Total Deposits</span>
+                  <strong class="positive" id="stmt-deposits">AED 0.00</strong>
+                </div>
+                <div class="statement-row">
+                  <span data-t="totalWithdrawals">Total Withdrawals</span>
+                  <strong class="negative" id="stmt-withdrawals">AED 0.00</strong>
+                </div>
+                <div class="statement-row">
+                  <span data-t="totalInterest">Total Interest</span>
+                  <strong id="stmt-interest">AED 0.00</strong>
+                </div>
+                <div class="statement-row total">
+                  <span data-t="closingBalance">Closing Balance</span>
+                  <strong id="stmt-closing">AED 0.00</strong>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button class="btn-secondary" data-action="download-statement" data-t="downloadStatement">Download</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Profile View -->
+      <section id="view-profile" class="view">
+        <div class="profile-container">
+          <div class="card">
+            <h2 data-t="profile">Profile</h2>
+            
+            <div class="profile-info">
+              <div class="info-row">
+                <span data-t="memberName">Member Name</span>
+                <strong id="profile-name">--</strong>
+              </div>
+              <div class="info-row">
+                <span data-t="memberId">Member ID</span>
+                <strong id="profile-id">--</strong>
+              </div>
+              <div class="info-row">
+                <span data-t="phoneNumber">Phone Number</span>
+                <strong id="profile-phone">--</strong>
+              </div>
+              <div class="info-row">
+                <span data-t="emailAddress">Email Address</span>
+                <strong id="profile-email">--</strong>
+              </div>
+              <div class="info-row">
+                <span data-t="language">Language</span>
+                <strong id="profile-language">English</strong>
+              </div>
+              <div class="info-row">
+                <span data-t="registeredDate">Registered Date</span>
+                <strong id="profile-registered">--</strong>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button class="btn-secondary" data-action="logout" data-t="logout">Logout</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+    
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <button class="nav-item active" data-view="home">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        <span data-t="home">Home</span>
+      </button>
+      <button class="nav-item" data-view="deposit">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+        </svg>
+        <span data-t="deposit">Deposit</span>
+      </button>
+      <button class="nav-item" data-view="withdraw">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 13H5v-2h14v2z"/>
+        </svg>
+        <span data-t="withdraw">Withdraw</span>
+      </button>
+      <button class="nav-item" data-view="ledger">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+        </svg>
+        <span data-t="ledger">Ledger</span>
+      </button>
+      <button class="nav-item" data-view="profile">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+        <span data-t="profile">Profile</span>
+      </button>
+    </nav>
+    
+  </div>
+  
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span id="toast-message"></span>
+  </div>
+  
+  <!-- Error Modal -->
+  <div id="error-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3 data-t="error">Error</h3>
+      <p id="error-message"></p>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="closeErrorModal()" data-t="close">Close</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Success Modal -->
+  <div id="success-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3 data-t="success">Success</h3>
+      <div id="success-details"></div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="closeSuccessModal()" data-t="close">Close</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="/config/appConfig.js"></script>
+  <script src="/config/translations.js"></script>
+  <script src="/frontend/js/app.js"></script>
+  
+</body>
+</html>
